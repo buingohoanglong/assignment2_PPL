@@ -1,0 +1,13 @@
+
+Function: radius
+    Parameter: x,       y
+        Body:
+            Var: radius;
+            radius = sqrt(x*x + y*y);
+            Return radius;
+        EndBody.
+Function: main
+    Body:
+        Var : x = 3, y = 4;
+        radius(x,   y);
+    EndBody.

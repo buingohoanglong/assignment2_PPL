@@ -1082,3 +1082,383 @@ class ASTGenSuite(unittest.TestCase):
         expect = Program([FuncDecl(Id("foo"),[],([],[CallStmt(Id("foo"),[IntLiteral(1),FloatLiteral(2e5),StringLiteral("string"),BooleanLiteral(False),ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)])])]))])
         self.assertTrue(TestAST.checkASTGen(input,expect,380))
 
+    # Test full program
+    def test_full_program_1(self):
+        input = """Var: x;
+Function: fact
+    Parameter: n
+        Body:
+            If n == 0 Then
+                Return 1;
+            Else
+                Return n * fact (n - 1);
+            EndIf.
+        EndBody.
+Function: main
+    Body:
+        x = 10;
+        fact (x);
+    EndBody."""
+        expect = Program([VarDecl(Id("x"),[],None),FuncDecl(Id("fact"),[VarDecl(Id("n"),[],None)],([],[If([((BinaryOp("==",Id("n"),IntLiteral(0)),[],[Return(IntLiteral(1))]))],(([],[Return(BinaryOp("*",Id("n"),CallExpr(Id("fact"),[BinaryOp("-",Id("n"),IntLiteral(1))])))])))])),FuncDecl(Id("main"),[],([],[Assign(Id("x"),IntLiteral(10)),CallStmt(Id("fact"),[Id("x")])]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,381))
+
+    def test_full_program_2(self):
+        input = """Var: x[5] = {1,2,3,4,5};
+Function: sum
+    Parameter: x[5]
+        Body:
+            Var: sum = 0;
+            For (i = 0 , i < 5, 1) Do
+                sum = sum + i;
+            EndFor.
+            Return sum;
+        EndBody.
+Function: main
+    Body:
+        sum(x);
+    EndBody."""
+        expect = Program([VarDecl(Id("x"),[5],ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5)])),FuncDecl(Id("sum"),[VarDecl(Id("x"),[5],None)],([VarDecl(Id("sum"),[],IntLiteral(0))],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(5)),IntLiteral(1),([],[Assign(Id("sum"),BinaryOp("+",Id("sum"),Id("i")))])),Return(Id("sum"))])),FuncDecl(Id("main"),[],([],[CallStmt(Id("sum"),[Id("x")])]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,382))
+
+    def test_full_program_3(self):
+        input = """
+Function: radius
+    Parameter: x,       y
+        Body:
+            Var: radius;
+            radius = sqrt(x*x + y*y);
+            Return radius;
+        EndBody.
+Function: main
+    Body:
+        Var : x = 3, y = 4;
+        radius(x,   y);
+    EndBody."""
+        expect = Program([FuncDecl(Id("radius"),[VarDecl(Id("x"),[],None),VarDecl(Id("y"),[],None)],([VarDecl(Id("radius"),[],None)],[Assign(Id("radius"),CallExpr(Id("sqrt"),[BinaryOp("+",BinaryOp("*",Id("x"),Id("x")),BinaryOp("*",Id("y"),Id("y")))])),Return(Id("radius"))])),FuncDecl(Id("main"),[],([VarDecl(Id("x"),[],IntLiteral(3)),VarDecl(Id("y"),[],IntLiteral(4))],[CallStmt(Id("radius"),[Id("x"),Id("y")])]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,383))
+
+    def test_full_program_4(self):
+        input = """
+Function: radius
+    Parameter: x,       y
+        Body:
+            Var: radius;
+            radius = sqrt(x*.x +. y*.y);
+            Return radius;
+        EndBody.
+Function: main
+    Body:
+        Var : x = 3.5e0, y = 4.6e-0;
+        radius(x,   y);
+    EndBody."""
+        expect = Program([FuncDecl(Id("radius"),[VarDecl(Id("x"),[],None),VarDecl(Id("y"),[],None)],([VarDecl(Id("radius"),[],None)],[Assign(Id("radius"),CallExpr(Id("sqrt"),[BinaryOp("+.",BinaryOp("*.",Id("x"),Id("x")),BinaryOp("*.",Id("y"),Id("y")))])),Return(Id("radius"))])),FuncDecl(Id("main"),[],([VarDecl(Id("x"),[],FloatLiteral(3.5)),VarDecl(Id("y"),[],FloatLiteral(4.6))],[CallStmt(Id("radius"),[Id("x"),Id("y")])]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,384))
+
+    def test_full_program_5(self):
+        input = """Var: string_list[4] = {"","","","",""};
+Function: get_string_list
+    Parameter: list[4]
+        Body:
+            Var : str_input = "";
+            For (i = 0 , i < 4, 1) Do
+                str_input = read();
+                list[i] = str_input;
+            EndFor.
+            Return list;
+        EndBody.
+Function: print_string_list
+    Parameter: list[4]
+        Body:
+            For (i = 0 , i < 4, 1) Do
+                printStrLn(list[i]);
+            EndFor.
+        EndBody.
+Function: main
+    Body:
+        print_string_list(string_list);
+    EndBody."""
+        expect = Program([VarDecl(Id("string_list"),[4],ArrayLiteral([StringLiteral(""),StringLiteral(""),StringLiteral(""),StringLiteral(""),StringLiteral("")])),FuncDecl(Id("get_string_list"),[VarDecl(Id("list"),[4],None)],([VarDecl(Id("str_input"),[],StringLiteral(""))],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(4)),IntLiteral(1),([],[Assign(Id("str_input"),CallExpr(Id("read"),[])),Assign(ArrayCell(Id("list"),[Id("i")]),Id("str_input"))])),Return(Id("list"))])),FuncDecl(Id("print_string_list"),[VarDecl(Id("list"),[4],None)],([],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(4)),IntLiteral(1),([],[CallStmt(Id("printStrLn"),[ArrayCell(Id("list"),[Id("i")])])]))])),FuncDecl(Id("main"),[],([],[CallStmt(Id("print_string_list"),[Id("string_list")])]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,385))
+
+    def test_full_program_6(self):
+        input = """
+** This is a global variable **
+Var: arr[5] = {5,   7, 1,2, 6};
+
+** Sort function **
+Function: sort
+    Parameter: arr[5]
+    Body:
+        For (i = 0, i < 5, 1) Do
+            For (j = i + 1, j < 5, 1) Do
+                If arr[i] < arr[j] Then
+                    Var: temp;
+                    temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                EndIf.
+            EndFor.
+        EndFor.
+        Return arr;
+    EndBody.
+
+** Entry of program **
+Function: main
+    Body:
+        For (i = 0, i < 5, 1) Do
+            print(string_of_int(arr[i]));
+            print(" ");
+        EndFor.
+    EndBody."""
+        expect = Program([VarDecl(Id("arr"),[5],ArrayLiteral([IntLiteral(5),IntLiteral(7),IntLiteral(1),IntLiteral(2),IntLiteral(6)])),FuncDecl(Id("sort"),[VarDecl(Id("arr"),[5],None)],([],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(5)),IntLiteral(1),([],[For(Id("j"),BinaryOp("+",Id("i"),IntLiteral(1)),BinaryOp("<",Id("j"),IntLiteral(5)),IntLiteral(1),([],[If([((BinaryOp("<",ArrayCell(Id("arr"),[Id("i")]),ArrayCell(Id("arr"),[Id("j")])),[VarDecl(Id("temp"),[],None)],[Assign(Id("temp"),ArrayCell(Id("arr"),[Id("i")])),Assign(ArrayCell(Id("arr"),[Id("i")]),ArrayCell(Id("arr"),[Id("j")])),Assign(ArrayCell(Id("arr"),[Id("j")]),Id("temp"))]))],(([],[])))]))])),Return(Id("arr"))])),FuncDecl(Id("main"),[],([],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(5)),IntLiteral(1),([],[CallStmt(Id("print"),[CallExpr(Id("string_of_int"),[ArrayCell(Id("arr"),[Id("i")])])]),CallStmt(Id("print"),[StringLiteral(" ")])]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,386))
+
+    def test_full_program_7(self):
+        input = """Var: arr[4] = {"This", "is", "a", "testcase"};
+** This
+* is
+* a
+* block
+* comment ** 
+Function: printSth
+    Parameter: arr[4]
+    Body:
+        Var : count = 0;
+        While count < 100 Do
+            If (count % 3 == 0) || (count % 5 == 0) Then
+                printLn("Skip");
+                Continue;
+            ElseIf (count % 4 == 0) Then
+                Break;
+            EndIf.
+            For (i = 0 , i < 4, 1) Do
+                print(string_to_int(arr[i]));
+                print(" ");
+            EndFor.
+            count = count + -1 + 1;
+        EndWhile.
+    EndBody.
+
+Function: main
+    Body:
+        printSth(arr);
+    EndBody."""
+        expect = Program([VarDecl(Id("arr"),[4],ArrayLiteral([StringLiteral("This"),StringLiteral("is"),StringLiteral("a"),StringLiteral("testcase")])),FuncDecl(Id("printSth"),[VarDecl(Id("arr"),[4],None)],([VarDecl(Id("count"),[],IntLiteral(0))],[While(BinaryOp("<",Id("count"),IntLiteral(100)),([],[If([((BinaryOp("||",BinaryOp("==",BinaryOp("%",Id("count"),IntLiteral(3)),IntLiteral(0)),BinaryOp("==",BinaryOp("%",Id("count"),IntLiteral(5)),IntLiteral(0))),[],[CallStmt(Id("printLn"),[StringLiteral("Skip")]),Continue()])),((BinaryOp("==",BinaryOp("%",Id("count"),IntLiteral(4)),IntLiteral(0)),[],[Break()]))],(([],[]))),For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(4)),IntLiteral(1),([],[CallStmt(Id("print"),[CallExpr(Id("string_to_int"),[ArrayCell(Id("arr"),[Id("i")])])]),CallStmt(Id("print"),[StringLiteral(" ")])])),Assign(Id("count"),BinaryOp("+",BinaryOp("+",Id("count"),UnaryOp("-",IntLiteral(1))),IntLiteral(1)))]))])),FuncDecl(Id("main"),[],([],[CallStmt(Id("printSth"),[Id("arr")])]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,387))
+
+    def test_full_program_8(self):
+        input = """Var: a[5][6][3]={12,2,5,{65,9,5}};
+Function: thisIsAFunction
+    Parameter: kdhgf82734jsdh,h44qa43t,r,qrra,az
+    Body:
+            If (x + foo(5)[6]) Then
+                jgf348dh(**lsokf**sfle,zugse, 0, 8+9+7);
+                Continue;
+            ElseIf True == False Then
+                Break;
+            Else
+                Return {1,2,3}[1];
+            EndIf.
+    EndBody.
+
+Function: dcmasci
+    Parameter: t4t2, a4, m_34dwq
+    Body:
+        Var: tngh[7645]={};
+        Break;
+    EndBody."""
+        expect = Program([VarDecl(Id("a"),[5,6,3],ArrayLiteral([IntLiteral(12),IntLiteral(2),IntLiteral(5),ArrayLiteral([IntLiteral(65),IntLiteral(9),IntLiteral(5)])])),FuncDecl(Id("thisIsAFunction"),[VarDecl(Id("kdhgf82734jsdh"),[],None),VarDecl(Id("h44qa43t"),[],None),VarDecl(Id("r"),[],None),VarDecl(Id("qrra"),[],None),VarDecl(Id("az"),[],None)],([],[If([((BinaryOp("+",Id("x"),ArrayCell(CallExpr(Id("foo"),[IntLiteral(5)]),[IntLiteral(6)])),[],[CallStmt(Id("jgf348dh"),[Id("sfle"),Id("zugse"),IntLiteral(0),BinaryOp("+",BinaryOp("+",IntLiteral(8),IntLiteral(9)),IntLiteral(7))]),Continue()])),((BinaryOp("==",BooleanLiteral(True),BooleanLiteral(False)),[],[Break()]))],(([],[Return(ArrayCell(ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)]),[IntLiteral(1)]))])))])),FuncDecl(Id("dcmasci"),[VarDecl(Id("t4t2"),[],None),VarDecl(Id("a4"),[],None),VarDecl(Id("m_34dwq"),[],None)],([VarDecl(Id("tngh"),[7645],ArrayLiteral([]))],[Break()]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,388))
+
+    def test_full_program_9(self):
+        input = """Var: a = {2,3};
+Function: x
+    Parameter: a
+    Body:
+        foo()[x + y] = {1,2,3,4}[2] + foo(z);
+    EndBody.
+"""
+        expect = Program([VarDecl(Id("a"),[],ArrayLiteral([IntLiteral(2),IntLiteral(3)])),FuncDecl(Id("x"),[VarDecl(Id("a"),[],None)],([],[Assign(ArrayCell(CallExpr(Id("foo"),[]),[BinaryOp("+",Id("x"),Id("y"))]),BinaryOp("+",ArrayCell(ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4)]),[IntLiteral(2)]),CallExpr(Id("foo"),[Id("z")])))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,389))
+
+    def test_full_program_10(self):
+        input = """           
+Function: foo
+    Parameter: a , v , asd[6][21]
+    Body:
+        Var: a_b_c = 7;
+        a_b_c[x + y + foo(z)[0]] = (foo(z))[foo(z)] + foo(z);
+    EndBody."""
+        expect = Program([FuncDecl(Id("foo"),[VarDecl(Id("a"),[],None),VarDecl(Id("v"),[],None),VarDecl(Id("asd"),[6,21],None)],([VarDecl(Id("a_b_c"),[],IntLiteral(7))],[Assign(ArrayCell(Id("a_b_c"),[BinaryOp("+",BinaryOp("+",Id("x"),Id("y")),ArrayCell(CallExpr(Id("foo"),[Id("z")]),[IntLiteral(0)]))]),BinaryOp("+",ArrayCell(CallExpr(Id("foo"),[Id("z")]),[CallExpr(Id("foo"),[Id("z")])]),CallExpr(Id("foo"),[Id("z")])))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,390))
+
+    def test_full_program_11(self):
+        input = """           
+Function: main
+    Body:
+        a[x * y - sum(x,y)] = a[b[sum(x,y) * 2][c[x*y][x \ y] - sqrt(power(x,2))]] * sqrt(power(x+y,x*y) + power(y));
+    EndBody."""
+        expect = Program([FuncDecl(Id("main"),[],([],[Assign(ArrayCell(Id("a"),[BinaryOp("-",BinaryOp("*",Id("x"),Id("y")),CallExpr(Id("sum"),[Id("x"),Id("y")]))]),BinaryOp("*",ArrayCell(Id("a"),[ArrayCell(Id("b"),[BinaryOp("*",CallExpr(Id("sum"),[Id("x"),Id("y")]),IntLiteral(2)),BinaryOp("-",ArrayCell(Id("c"),[BinaryOp("*",Id("x"),Id("y")),BinaryOp("\\",Id("x"),Id("y"))]),CallExpr(Id("sqrt"),[CallExpr(Id("power"),[Id("x"),IntLiteral(2)])]))])]),CallExpr(Id("sqrt"),[BinaryOp("+",CallExpr(Id("power"),[BinaryOp("+",Id("x"),Id("y")),BinaryOp("*",Id("x"),Id("y"))]),CallExpr(Id("power"),[Id("y")]))])))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,391))
+
+    def test_full_program_12(self):
+        input = """           
+Function: main
+    Body:
+        Var: a[3][2] = {{1,2},{3,4},{5,6}}, i = 0;
+        While i < 3 Do
+            Var: j = 0;
+            If i < j Then
+                Continue;
+            EndIf.
+            While (j < 2) Do
+                printStrLn(string_of_int(a[i][j]));
+                j =  j + 1;
+                If j == 3 Then
+                    Continue;
+                EndIf.
+            EndWhile.
+            i = i + 1;           
+        EndWhile.
+    EndBody."""
+        expect = Program([FuncDecl(Id("main"),[],([VarDecl(Id("a"),[3,2],ArrayLiteral([ArrayLiteral([IntLiteral(1),IntLiteral(2)]),ArrayLiteral([IntLiteral(3),IntLiteral(4)]),ArrayLiteral([IntLiteral(5),IntLiteral(6)])])),VarDecl(Id("i"),[],IntLiteral(0))],[While(BinaryOp("<",Id("i"),IntLiteral(3)),([VarDecl(Id("j"),[],IntLiteral(0))],[If([((BinaryOp("<",Id("i"),Id("j")),[],[Continue()]))],(([],[]))),While(BinaryOp("<",Id("j"),IntLiteral(2)),([],[CallStmt(Id("printStrLn"),[CallExpr(Id("string_of_int"),[ArrayCell(Id("a"),[Id("i"),Id("j")])])]),Assign(Id("j"),BinaryOp("+",Id("j"),IntLiteral(1))),If([((BinaryOp("==",Id("j"),IntLiteral(3)),[],[Continue()]))],(([],[])))])),Assign(Id("i"),BinaryOp("+",Id("i"),IntLiteral(1)))]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,392))
+
+    def test_full_program_13(self):
+        input = """           
+Function: main
+    Body:
+        Var: a[3][2] = {{1,2},{3,4},{5,6}}, i = 0;
+        While i < 3 Do
+            Var: j = 0;
+            While j < 2 Do
+                printStrLn(string_of_int(a[i][j]));
+                j =  j + 1;
+            EndWhile.
+            i = i + 1;            
+        EndWhile.
+    EndBody."""
+        expect = Program([FuncDecl(Id("main"),[],([VarDecl(Id("a"),[3,2],ArrayLiteral([ArrayLiteral([IntLiteral(1),IntLiteral(2)]),ArrayLiteral([IntLiteral(3),IntLiteral(4)]),ArrayLiteral([IntLiteral(5),IntLiteral(6)])])),VarDecl(Id("i"),[],IntLiteral(0))],[While(BinaryOp("<",Id("i"),IntLiteral(3)),([VarDecl(Id("j"),[],IntLiteral(0))],[While(BinaryOp("<",Id("j"),IntLiteral(2)),([],[CallStmt(Id("printStrLn"),[CallExpr(Id("string_of_int"),[ArrayCell(Id("a"),[Id("i"),Id("j")])])]),Assign(Id("j"),BinaryOp("+",Id("j"),IntLiteral(1)))])),Assign(Id("i"),BinaryOp("+",Id("i"),IntLiteral(1)))]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,393))
+
+    def test_full_program_14(self):
+        input = """           
+Function: main
+    Body:
+        Var: a = 5;
+        If a % 5 == 0 Then
+            printStrLn("a % 5 == 0");
+        ElseIf a % 5 == 1 Then
+            printStrLn("a % 5 == 1");
+        ElseIf a % 5 == 2 Then
+            printStrLn("a % 5 == 2");
+        ElseIf a % 5 == 3 Then
+            printStrLn("a % 5 == 3");
+        Else
+            printStrLn("a % 5 == 4");
+        EndIf.
+    EndBody."""
+        expect = Program([FuncDecl(Id("main"),[],([VarDecl(Id("a"),[],IntLiteral(5))],[If([((BinaryOp("==",BinaryOp("%",Id("a"),IntLiteral(5)),IntLiteral(0)),[],[CallStmt(Id("printStrLn"),[StringLiteral("a % 5 == 0")])])),((BinaryOp("==",BinaryOp("%",Id("a"),IntLiteral(5)),IntLiteral(1)),[],[CallStmt(Id("printStrLn"),[StringLiteral("a % 5 == 1")])])),((BinaryOp("==",BinaryOp("%",Id("a"),IntLiteral(5)),IntLiteral(2)),[],[CallStmt(Id("printStrLn"),[StringLiteral("a % 5 == 2")])])),((BinaryOp("==",BinaryOp("%",Id("a"),IntLiteral(5)),IntLiteral(3)),[],[CallStmt(Id("printStrLn"),[StringLiteral("a % 5 == 3")])]))],(([],[CallStmt(Id("printStrLn"),[StringLiteral("a % 5 == 4")])])))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,394))
+
+    def test_full_program_15(self):
+        input = """           
+Function: sum
+    Body:
+        Var : a = 1, b = 2;
+        Var : c = 3;
+        c = a + c;
+        c = b + c;
+        Return c;
+    EndBody."""
+        expect = Program([FuncDecl(Id("sum"),[],([VarDecl(Id("a"),[],IntLiteral(1)),VarDecl(Id("b"),[],IntLiteral(2)),VarDecl(Id("c"),[],IntLiteral(3))],[Assign(Id("c"),BinaryOp("+",Id("a"),Id("c"))),Assign(Id("c"),BinaryOp("+",Id("b"),Id("c"))),Return(Id("c"))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,395))
+
+    def test_full_program_16(self):
+        input = """           
+Function: sum
+    Parameter: n
+    Body:
+        a = {{1,2}, {3,4}, {5,6}};
+        a[x] = {4,3};
+        a[x+y][x-y] = {1,2};
+    EndBody."""
+        expect = Program([FuncDecl(Id("sum"),[VarDecl(Id("n"),[],None)],([],[Assign(Id("a"),ArrayLiteral([ArrayLiteral([IntLiteral(1),IntLiteral(2)]),ArrayLiteral([IntLiteral(3),IntLiteral(4)]),ArrayLiteral([IntLiteral(5),IntLiteral(6)])])),Assign(ArrayCell(Id("a"),[Id("x")]),ArrayLiteral([IntLiteral(4),IntLiteral(3)])),Assign(ArrayCell(Id("a"),[BinaryOp("+",Id("x"),Id("y")),BinaryOp("-",Id("x"),Id("y"))]),ArrayLiteral([IntLiteral(1),IntLiteral(2)]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,396))
+
+    def test_full_program_17(self):
+        input = """           
+Function: main
+    Body:
+        Var: a[3][2] = {{1,2},{3,4},{5,6}};
+        For (i = 0, i < 3, 1) Do
+            For (j = 0, j < 2, 1) Do
+                printStrLn(string_of_int(a[i][j]));
+            EndFor.            
+        EndFor.
+    EndBody."""
+        expect = Program([FuncDecl(Id("main"),[],([VarDecl(Id("a"),[3,2],ArrayLiteral([ArrayLiteral([IntLiteral(1),IntLiteral(2)]),ArrayLiteral([IntLiteral(3),IntLiteral(4)]),ArrayLiteral([IntLiteral(5),IntLiteral(6)])]))],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),IntLiteral(3)),IntLiteral(1),([],[For(Id("j"),IntLiteral(0),BinaryOp("<",Id("j"),IntLiteral(2)),IntLiteral(1),([],[CallStmt(Id("printStrLn"),[CallExpr(Id("string_of_int"),[ArrayCell(Id("a"),[Id("i"),Id("j")])])])]))]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,397))
+
+    def test_full_program_18(self):
+        input = """Var: x;
+Function: function
+    Parameter: dgfuef, hdf[1000]
+    Body:
+        For (i=0,0,0) Do
+            Var:x=1;
+            Do
+                Var:x=2;
+            While True
+            EndDo.
+            If False Then
+                Var:x=3;
+            ElseIf 0 Then
+                Var:x=4;
+            Else
+                Var:x=5;
+            EndIf.
+        EndFor.
+    EndBody."""
+        expect = Program([VarDecl(Id("x"),[],None),FuncDecl(Id("function"),[VarDecl(Id("dgfuef"),[],None),VarDecl(Id("hdf"),[1000],None)],([],[For(Id("i"),IntLiteral(0),IntLiteral(0),IntLiteral(0),([VarDecl(Id("x"),[],IntLiteral(1))],[Dowhile(([VarDecl(Id("x"),[],IntLiteral(2))],[]),BooleanLiteral(True)),If([((BooleanLiteral(False),[VarDecl(Id("x"),[],IntLiteral(3))],[])),((IntLiteral(0),[VarDecl(Id("x"),[],IntLiteral(4))],[]))],(([VarDecl(Id("x"),[],IntLiteral(5))],[])))]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,398))
+
+    def test_full_program_19(self):
+        input = """           
+Var: awe,a[4];
+Function:zwt56dm
+    Body:
+    Var:a=3;
+        If abcd+ foo() + a[foo()] Then
+                If kjsdghfu()-234>=.1.9-.34e4 Then sdkfgsdh();
+                ElseIf abcd Then e=p+1;
+                Else op();
+                EndIf.
+            ElseIf st&&st Then ok_man();
+            ElseIf 72%7&&cqwiw+(ad+q3) Then
+            EndIf.
+    If abcd+ foo() + a[foo()] Then
+            If hgcueh()-8746>=.1.3948+.34e4 Then isudf8();
+            EndIf.
+        ElseIf st||st Then
+        ElseIf 72%7&&cqhgdfw+(ad+q3) Then
+        EndIf.
+    EndBody."""
+        expect = Program([VarDecl(Id("awe"),[],None),VarDecl(Id("a"),[4],None),FuncDecl(Id("zwt56dm"),[],([VarDecl(Id("a"),[],IntLiteral(3))],[If([((BinaryOp("+",BinaryOp("+",Id("abcd"),CallExpr(Id("foo"),[])),ArrayCell(Id("a"),[CallExpr(Id("foo"),[])])),[],[If([((BinaryOp(">=.",BinaryOp("-",CallExpr(Id("kjsdghfu"),[]),IntLiteral(234)),BinaryOp("-.",FloatLiteral(1.9),FloatLiteral(340000.0))),[],[CallStmt(Id("sdkfgsdh"),[])])),((Id("abcd"),[],[Assign(Id("e"),BinaryOp("+",Id("p"),IntLiteral(1)))]))],(([],[CallStmt(Id("op"),[])])))])),((BinaryOp("&&",Id("st"),Id("st")),[],[CallStmt(Id("ok_man"),[])])),((BinaryOp("&&",BinaryOp("%",IntLiteral(72),IntLiteral(7)),BinaryOp("+",Id("cqwiw"),BinaryOp("+",Id("ad"),Id("q3")))),[],[]))],(([],[]))),If([((BinaryOp("+",BinaryOp("+",Id("abcd"),CallExpr(Id("foo"),[])),ArrayCell(Id("a"),[CallExpr(Id("foo"),[])])),[],[If([((BinaryOp(">=.",BinaryOp("-",CallExpr(Id("hgcueh"),[]),IntLiteral(8746)),BinaryOp("+.",FloatLiteral(1.3948),FloatLiteral(340000.0))),[],[CallStmt(Id("isudf8"),[])]))],(([],[])))])),((BinaryOp("||",Id("st"),Id("st")),[],[])),((BinaryOp("&&",BinaryOp("%",IntLiteral(72),IntLiteral(7)),BinaryOp("+",Id("cqhgdfw"),BinaryOp("+",Id("ad"),Id("q3")))),[],[]))],(([],[])))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,399))
+
+    def test_full_program_20(self):
+        input = """           
+Function: foo
+    Parameter: a , v , asd[5][123][123]
+    Body:
+        Var: i;
+        While i < 10 Do
+            Var: x = {1,2,3};
+            For(x = 1, x&&y , 7263) Do
+                x = a[1 * y + 1 + foo()];
+            EndFor.
+        EndWhile.
+    EndBody."""
+        expect = Program([FuncDecl(Id("foo"),[VarDecl(Id("a"),[],None),VarDecl(Id("v"),[],None),VarDecl(Id("asd"),[5,123,123],None)],([VarDecl(Id("i"),[],None)],[While(BinaryOp("<",Id("i"),IntLiteral(10)),([VarDecl(Id("x"),[],ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)]))],[For(Id("x"),IntLiteral(1),BinaryOp("&&",Id("x"),Id("y")),IntLiteral(7263),([],[Assign(Id("x"),ArrayCell(Id("a"),[BinaryOp("+",BinaryOp("+",BinaryOp("*",IntLiteral(1),Id("y")),IntLiteral(1)),CallExpr(Id("foo"),[]))]))]))]))]))])
+        self.assertTrue(TestAST.checkASTGen(input,expect,400))

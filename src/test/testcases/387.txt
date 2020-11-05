@@ -1,0 +1,29 @@
+Var: arr[4] = {"This", "is", "a", "testcase"};
+** This
+* is
+* a
+* block
+* comment ** 
+Function: printSth
+    Parameter: arr[4]
+    Body:
+        Var : count = 0;
+        While count < 100 Do
+            If (count % 3 == 0) || (count % 5 == 0) Then
+                printLn("Skip");
+                Continue;
+            ElseIf (count % 4 == 0) Then
+                Break;
+            EndIf.
+            For (i = 0 , i < 4, 1) Do
+                print(string_to_int(arr[i]));
+                print(" ");
+            EndFor.
+            count = count + -1 + 1;
+        EndWhile.
+    EndBody.
+
+Function: main
+    Body:
+        printSth(arr);
+    EndBody.

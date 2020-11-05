@@ -193,7 +193,7 @@ def printListStmt(stmt):
 
 
 def printIfThenStmt(stmt):
-	return str(stmt[0])+","+printListStmt((stmt[1],stmt[2]))
+	return "(" + str(stmt[0])+ "," + printListStmt((stmt[1],stmt[2]))[1:-1] + ")"
 
 
 @dataclass
@@ -206,8 +206,8 @@ class If(Stmt):
     elseStmt:Tuple[List[VarDecl],List[Stmt]] # for Else branch, empty list if no Else
 
     def __str__(self):
-        ifstmt = printlist(self.ifthenStmt,printIfThenStmt,"If(",")ElseIf(",")")
-        elsestmt = ("Else("+printListStmt(self.elseStmt)+")") if self.elseStmt else ""
+        ifstmt = printlist(self.ifthenStmt,printIfThenStmt,"If([(","),(",")]")
+        elsestmt = ",("+printListStmt(self.elseStmt)+"))" if self.elseStmt else ",([],[]))"
         return ifstmt + elsestmt
 
     def accept(self, v, param):

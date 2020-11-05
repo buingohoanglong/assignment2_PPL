@@ -1,0 +1,19 @@
+Var: x;
+Function: function
+    Parameter: dgfuef, hdf[1000]
+    Body:
+        For (i=0,0,0) Do
+            Var:x=1;
+            Do
+                Var:x=2;
+            While True
+            EndDo.
+            If False Then
+                Var:x=3;
+            ElseIf 0 Then
+                Var:x=4;
+            Else
+                Var:x=5;
+            EndIf.
+        EndFor.
+    EndBody.

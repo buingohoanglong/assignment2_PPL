@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[If(BooleanLiteral(True),([],[While(BooleanLiteral(True),([],[]))]))Else(([],[]))]))])
+Program([FuncDecl(Id("foo"),[],([],[If([((BooleanLiteral(True),[],[While(BooleanLiteral(True),([],[]))]))],(([],[])))]))])

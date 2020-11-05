@@ -1,0 +1,7 @@
+           
+Function: foo
+    Parameter: a , v , asd[6][21]
+    Body:
+        Var: a_b_c = 7;
+        a_b_c[x + y + foo(z)[0]] = (foo(z))[foo(z)] + foo(z);
+    EndBody.

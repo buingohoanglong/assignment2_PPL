@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[If(BooleanLiteral(True),([],[If(BooleanLiteral(False),([],[Assign(Id("x"),Id("y"))]))Else(([],[]))]))Else(([],[If(BooleanLiteral(True),([],[Assign(Id("y"),Id("x"))]))Else(([],[Assign(Id("x"),Id("y"))]))]))]))])
+Program([FuncDecl(Id("foo"),[],([],[If([((BooleanLiteral(True),[],[If([((BooleanLiteral(False),[],[Assign(Id("x"),Id("y"))]))],(([],[])))]))],(([],[If([((BooleanLiteral(True),[],[Assign(Id("y"),Id("x"))]))],(([],[Assign(Id("x"),Id("y"))])))])))]))])

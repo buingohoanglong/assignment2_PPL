@@ -1,0 +1,20 @@
+Var: a[5][6][3]={12,2,5,{65,9,5}};
+Function: thisIsAFunction
+    Parameter: kdhgf82734jsdh,h44qa43t,r,qrra,az
+    Body:
+            If (x + foo(5)[6]) Then
+                jgf348dh(**lsokf**sfle,zugse, 0, 8+9+7);
+                Continue;
+            ElseIf True == False Then
+                Break;
+            Else
+                Return {1,2,3}[1];
+            EndIf.
+    EndBody.
+
+Function: dcmasci
+    Parameter: t4t2, a4, m_34dwq
+    Body:
+        Var: tngh[7645]={};
+        Break;
+    EndBody.

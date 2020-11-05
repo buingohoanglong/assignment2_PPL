@@ -1,0 +1,12 @@
+           
+Function: foo
+    Parameter: a , v , asd[5][123][123]
+    Body:
+        Var: i;
+        While i < 10 Do
+            Var: x = {1,2,3};
+            For(x = 1, x&&y , 7263) Do
+                x = a[1 * y + 1 + foo()];
+            EndFor.
+        EndWhile.
+    EndBody.
