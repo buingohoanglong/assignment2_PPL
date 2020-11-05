@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[Assign(Id("y"),BinaryOp("-",BinaryOp("-.",CallExpr(Id("foo"),[]),CallExpr(Id("goo"),[BinaryOp("+",BinaryOp("+",Id("x"),Id("y")),Id("z")),BinaryOp("+.",BinaryOp("+.",Id("x"),Id("y")),Id("z"))])),IntLiteral(2)))]))])
+Program([FuncDecl(Id(foo)[],([][Assign(Id(y),BinaryOp(-,BinaryOp(-.,CallExpr(Id(foo),[]),CallExpr(Id(goo),[BinaryOp(+,BinaryOp(+,Id(x),Id(y)),Id(z)),BinaryOp(+.,BinaryOp(+.,Id(x),Id(y)),Id(z))])),IntLiteral(2)))]))])

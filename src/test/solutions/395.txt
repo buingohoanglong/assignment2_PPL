@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("sum"),[],([VarDecl(Id("a"),[],IntLiteral(1)),VarDecl(Id("b"),[],IntLiteral(2)),VarDecl(Id("c"),[],IntLiteral(3))],[Assign(Id("c"),BinaryOp("+",Id("a"),Id("c"))),Assign(Id("c"),BinaryOp("+",Id("b"),Id("c"))),Return(Id("c"))]))])
+Program([FuncDecl(Id(sum)[],([VarDecl(Id(a),IntLiteral(1)),VarDecl(Id(b),IntLiteral(2)),VarDecl(Id(c),IntLiteral(3))][Assign(Id(c),BinaryOp(+,Id(a),Id(c))),Assign(Id(c),BinaryOp(+,Id(b),Id(c))),Return(Id(c))]))])

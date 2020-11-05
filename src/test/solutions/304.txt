@@ -1,1 +1,1 @@
-Program([VarDecl(Id("x"),[],BooleanLiteral(True)),VarDecl(Id("y"),[],StringLiteral("This is a string")),VarDecl(Id("a"),[],IntLiteral(6)),VarDecl(Id("b"),[],FloatLiteral(7.5))])
+Program([VarDecl(Id(x),BooleanLiteral(true)),VarDecl(Id(y),StringLiteral(This is a string)),VarDecl(Id(a),IntLiteral(6)),VarDecl(Id(b),FloatLiteral(7.5))])

@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[Return(CallExpr(Id("foo"),[BinaryOp("+.",Id("x"),Id("y"))]))]))])
+Program([FuncDecl(Id(foo)[],([][Return(CallExpr(Id(foo),[BinaryOp(+.,Id(x),Id(y))]))]))])

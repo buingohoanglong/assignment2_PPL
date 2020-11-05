@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[Assign(Id("a"),BinaryOp("+",UnaryOp("-",Id("a")),UnaryOp("-.",UnaryOp("-.",UnaryOp("-.",Id("b"))))))]))])
+Program([FuncDecl(Id(foo)[],([][Assign(Id(a),BinaryOp(+,UnaryOp(-,Id(a)),UnaryOp(-.,UnaryOp(-.,UnaryOp(-.,Id(b))))))]))])

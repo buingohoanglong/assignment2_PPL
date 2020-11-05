@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[Break()]))])
+Program([FuncDecl(Id(foo)[],([][Break()]))])

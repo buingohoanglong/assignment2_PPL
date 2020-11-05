@@ -1,7 +1,7 @@
 from BKITVisitor import BKITVisitor
 from BKITParser import BKITParser
-# from AST import *
-from tool import *
+from AST import *
+# from tool import *
 import functools
 
 class ASTGeneration(BKITVisitor):

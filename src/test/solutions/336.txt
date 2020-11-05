@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[CallStmt(Id("thisIsAFunction"),[])]))])
+Program([FuncDecl(Id(foo)[],([][CallStmt(Id(thisIsAFunction),[])]))])

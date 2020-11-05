@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("foo"),[],([],[CallStmt(Id("foo"),[IntLiteral(1),FloatLiteral(200000.0),StringLiteral("string"),BooleanLiteral(False),ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)])])]))])
+Program([FuncDecl(Id(foo)[],([][CallStmt(Id(foo),[IntLiteral(1),FloatLiteral(200000.0),StringLiteral(string),BooleanLiteral(false),ArrayLiteral(IntLiteral(1),IntLiteral(2),IntLiteral(3))])]))])
