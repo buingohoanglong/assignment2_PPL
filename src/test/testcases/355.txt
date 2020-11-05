@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                a[x+.y][x-.y] = foo({1,2,3} +. {4,5,6});
+            EndBody.

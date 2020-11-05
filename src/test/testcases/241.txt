@@ -1,0 +1,11 @@
+
+Function: main
+    Body:
+        Var: a = 5;
+        Var: b = 6;
+        If a > b Then
+            printStrLn("a is bigger than b");
+        Else
+            printStrLn("a is smaller than b");
+        EndIf.
+    EndBody.

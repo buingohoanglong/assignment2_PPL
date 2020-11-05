@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                y = (5e7 == 7e5) && ("abc" =/= "cba");
+            EndBody.

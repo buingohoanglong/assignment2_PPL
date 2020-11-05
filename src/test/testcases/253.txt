@@ -1,0 +1,9 @@
+
+Function: main
+    Body:
+        For (i = 0, i < 10, 1) Do
+            Var: j;
+            j = i + 1;
+            printStrLn(string_of_int(i + j));
+        EndFor.
+    EndBody.

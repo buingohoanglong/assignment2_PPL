@@ -1,0 +1,5 @@
+
+Function: main
+    Body:
+        x = a[4][b[5][6]] >. b[c+d][c-d] || !(x&&y || !x&&y); 
+    EndBody.

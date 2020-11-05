@@ -1,0 +1,1 @@
+Var: m = "This is a \t string", n[10];

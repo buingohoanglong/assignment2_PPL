@@ -1,0 +1,7 @@
+
+Function: main
+    Body:
+        For (i = 0, True; (i+5) * 2) Do
+            printStrLn(string_of_int(i));
+        EndFor.
+    EndBody.

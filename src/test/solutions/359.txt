@@ -1,0 +1,1 @@
+Program([FuncDecl(Id("foo"),[],([],[Assign(Id("a"),BinaryOp("\.",BinaryOp("%",BinaryOp("*",StringLiteral("this"),StringLiteral("is")),StringLiteral("a")),ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)])))]))])

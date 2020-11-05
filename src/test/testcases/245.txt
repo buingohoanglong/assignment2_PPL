@@ -1,0 +1,7 @@
+
+Function: main
+    Body:
+        Var: a = 5;
+        If (a > 0) :
+            printStrLn("a is bigger than 0");
+    EndBody.

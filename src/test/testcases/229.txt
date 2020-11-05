@@ -1,0 +1,9 @@
+
+Function: sum
+    Body:
+        Var : a = 1, b = 2;
+        Var : c = 3;
+        c = a + c;
+        c = b + c;
+        Return c;
+    EndBody.

@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                Var: x = {1,1.2,"string",True,{1,2,3}};
+            EndBody.

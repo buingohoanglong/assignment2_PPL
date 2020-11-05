@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                x = 0 + 199 - 0xFF * 0XABC \ 0o567 % 0O77;
+            EndBody.

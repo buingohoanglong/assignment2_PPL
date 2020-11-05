@@ -1,0 +1,18 @@
+
+Function: main
+    Body:
+        Var: a = 5;
+        If a % 5 == 0 Then
+            printStrLn("a % 5 == 0");
+        ElseIf a % 5 == 1 Then
+            printStrLn("a % 5 == 1");
+        ElseIf a % 5 == 2 Then
+            printStrLn("a % 5 == 2");
+        ElseIf a % 5 == 3 Then
+            printStrLn("a % 5 == 3");
+        Else
+            printStrLn("a % 5 == 4");
+        Else
+            printStrLn("??????");
+        EndIf.
+    EndBody.

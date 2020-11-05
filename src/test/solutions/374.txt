@@ -1,0 +1,1 @@
+Program([FuncDecl(Id("foo"),[],([VarDecl(Id("x"),[],StringLiteral("This is a string")),VarDecl(Id("y"),[],StringLiteral("")),VarDecl(Id("z"),[],StringLiteral("This \n is 	 a '" string '""))],[]))])

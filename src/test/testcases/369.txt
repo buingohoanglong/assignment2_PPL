@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                foo()[foo()[1] + goo()[1]] = x[2][y[4][5]];
+            EndBody.

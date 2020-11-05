@@ -1,0 +1,5 @@
+
+Function: main
+    Body:
+        Return x * (sqrt(y) \ (z + 1)) + sqrt(power(x,2) + power(y,2));
+    EndBody.

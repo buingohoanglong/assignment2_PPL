@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                a = (0.0 >=. 0.01) <=. (0xABC >=. 0o123);
+            EndBody.

@@ -1,0 +1,5 @@
+
+Function: main
+    Body:
+        a[x * y - sum(x,y)] = a[b[sum(x,y) * 2][c[x*y][x \ y] - sqrt(power(x,2))]] * sqrt(power(x+y,x*y) + power(y));
+    EndBody.

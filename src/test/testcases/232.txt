@@ -1,0 +1,5 @@
+
+Function: main
+    Parameter: n = 5
+    Body:
+    EndBody.

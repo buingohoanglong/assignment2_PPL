@@ -1,0 +1,5 @@
+
+Function: main
+    Body:
+        Sqrt(sum(power(x,2) , power(y,2)));
+    EndBody.

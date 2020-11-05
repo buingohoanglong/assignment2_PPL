@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                a = (5.e+7 >. 7.e-5) >= (0xABC <. 0o123);
+            EndBody.

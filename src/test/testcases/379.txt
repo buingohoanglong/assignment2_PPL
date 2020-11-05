@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                Var: x = {**comment** {1,2 **comment**},    {3,**comment**4}};
+            EndBody.

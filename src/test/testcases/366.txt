@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                x[1[1[2]]] = (x+y)[3];
+            EndBody.

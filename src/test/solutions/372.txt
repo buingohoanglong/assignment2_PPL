@@ -1,0 +1,1 @@
+Program([FuncDecl(Id("foo"),[],([],[Assign(Id("x"),BinaryOp("-.",BinaryOp("+.",FloatLiteral(12000.0),FloatLiteral(12000.0)),BinaryOp("%",BinaryOp("\.",BinaryOp("*.",FloatLiteral(1200000.0),FloatLiteral(12000.0)),FloatLiteral(12000.0)),FloatLiteral(12000.0))))]))])

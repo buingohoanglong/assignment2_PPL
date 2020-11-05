@@ -1,0 +1,6 @@
+
+        Function: foo
+            Body:
+                Var: x = "This is a string", y = "";
+                Var: z = **comment** "This \n is 	 a '" string '"";
+            EndBody.

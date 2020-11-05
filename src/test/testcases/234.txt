@@ -1,0 +1,8 @@
+
+Function: sum
+    Parameter: n
+    Body:
+        c = a + b;
+        Var : d = 5;
+        d = d + c;
+    EndBody.

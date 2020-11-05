@@ -1,0 +1,2 @@
+Var:x = True, y = "This is a string";
+        Var:a = 6, b = 7.5;

@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                foo(1,2e5,"string",False,{1,2,3});
+            EndBody.

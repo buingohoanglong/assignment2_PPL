@@ -1,0 +1,5 @@
+
+        Function: foo
+            Body:
+                a = b + c * 5.6;
+            EndBody.

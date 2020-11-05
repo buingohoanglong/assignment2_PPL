@@ -1,0 +1,6 @@
+
+        Function: foo
+            Body:
+                Var: a[5];
+                a[5+b*2] = True;
+            EndBody.

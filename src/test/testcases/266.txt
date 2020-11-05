@@ -1,0 +1,8 @@
+
+Function: main
+    Body:
+        Var: i = 0;
+        While True Do
+            printStrLn(string_of_int(i));
+            i = (i+5) * 2;
+    EndBody.

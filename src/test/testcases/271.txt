@@ -1,0 +1,15 @@
+
+Function: main
+    Body:
+        Var: a[3][2] = {{1,2},{3,4},{5,6}}, i = 0;
+        Do
+            Var: j = 0;
+            Do
+                printStrLn(string_of_int(a[i][j]));
+                j =  j + 1;
+            While j < 2
+            EndDo.
+            i = i + 1;   
+        While i < 3         
+        EndDo.
+    EndBody.
