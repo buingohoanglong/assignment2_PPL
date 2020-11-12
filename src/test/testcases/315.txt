@@ -1,5 +1,5 @@
 
         Function: foo
             Body:
-                (foo() + a[1])[2] = foo()[1] + a[2];
+                foo()[2] = foo()[1] + a[2];
             EndBody.

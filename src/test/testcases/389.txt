@@ -2,5 +2,5 @@ Var: a = {2,3};
 Function: x
     Parameter: a
     Body:
-        foo()[x + y] = {1,2,3,4}[2] + foo(z);
+        foo()[x + y] = x[x[x[x[x[2]]]]] + foo(z);
     EndBody.

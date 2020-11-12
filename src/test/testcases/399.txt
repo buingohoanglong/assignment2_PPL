@@ -11,7 +11,7 @@ Function:zwt56dm
             ElseIf st&&st Then ok_man();
             ElseIf 72%7&&cqwiw+(ad+q3) Then
             EndIf.
-    If abcd+ foo() + a[foo()] Then
+    If abcd + foo() + a[foo()] Then
             If hgcueh()-8746>=.1.3948+.34e4 Then isudf8();
             EndIf.
         ElseIf st||st Then
