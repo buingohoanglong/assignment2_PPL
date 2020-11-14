@@ -1,10 +1,10 @@
            
 Function: foo
-    Parameter: a , v , asd[5][123][123]
+    Parameter: a , v , asd[5][0xABC][0o1234567]
     Body:
         Var: i;
         While i < 10 Do
-            Var: x = {1,2,3};
+            Var: x = {1,2,3}, y[0XABC][0O1234567];
             For(x = 1, x&&y , 7263) Do
                 x = a[1 * y + 1 + foo()];
             EndFor.

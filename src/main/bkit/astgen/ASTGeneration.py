@@ -23,7 +23,7 @@ class ASTGeneration(BKITVisitor):
 
     # var : ID (LSB INTLIT RSB)*;
     def visitVar(self,ctx:BKITParser.VarContext):   # return Id, List[int]
-        return Id(ctx.ID().getText()), [] if not ctx.INTLIT() else list(map(lambda intlit: int(intlit.getText()), ctx.INTLIT()))
+        return Id(ctx.ID().getText()), [] if not ctx.INTLIT() else list(map(lambda intlit: int(intlit.getText(), 0), ctx.INTLIT()))
 
     # func_dcl : FUNCTION COLON ID param_list? body ;
     def visitFunc_dcl(self,ctx:BKITParser.Func_dclContext): # return one FuncDecl() object
@@ -35,7 +35,7 @@ class ASTGeneration(BKITVisitor):
 
     # param : ID (LSB INTLIT RSB)*;
     def visitParam(self,ctx:BKITParser.ParamContext):   # return one VarDecl() object
-        return VarDecl(Id(ctx.ID().getText()), [] if not ctx.INTLIT() else list(map(lambda intlit: int(intlit.getText()), ctx.INTLIT())), None)
+        return VarDecl(Id(ctx.ID().getText()), [] if not ctx.INTLIT() else list(map(lambda intlit: int(intlit.getText(), 0), ctx.INTLIT())), None)
 
     # body : BODY COLON statement_list END_BODY DOT;
     def visitBody(self,ctx:BKITParser.BodyContext):

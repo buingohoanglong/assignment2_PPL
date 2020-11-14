@@ -1431,15 +1431,15 @@ Function:zwt56dm
     def test_full_program_20(self):
         input = """           
 Function: foo
-    Parameter: a , v , asd[5][123][123]
+    Parameter: a , v , asd[5][0xABC][0o1234567]
     Body:
         Var: i;
         While i < 10 Do
-            Var: x = {1,2,3};
+            Var: x = {1,2,3}, y[0XABC][0O1234567];
             For(x = 1, x&&y , 7263) Do
                 x = a[1 * y + 1 + foo()];
             EndFor.
         EndWhile.
     EndBody."""
-        expect = Program([FuncDecl(Id("foo"),[VarDecl(Id("a"),[],None),VarDecl(Id("v"),[],None),VarDecl(Id("asd"),[5,123,123],None)],([VarDecl(Id("i"),[],None)],[While(BinaryOp("<",Id("i"),IntLiteral(10)),([VarDecl(Id("x"),[],ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)]))],[For(Id("x"),IntLiteral(1),BinaryOp("&&",Id("x"),Id("y")),IntLiteral(7263),([],[Assign(Id("x"),ArrayCell(Id("a"),[BinaryOp("+",BinaryOp("+",BinaryOp("*",IntLiteral(1),Id("y")),IntLiteral(1)),CallExpr(Id("foo"),[]))]))]))]))]))])
+        expect = Program([FuncDecl(Id("foo"),[VarDecl(Id("a"),[],None),VarDecl(Id("v"),[],None),VarDecl(Id("asd"),[5,2748,342391],None)],([VarDecl(Id("i"),[],None)],[While(BinaryOp("<",Id("i"),IntLiteral(10)),([VarDecl(Id("x"),[],ArrayLiteral([IntLiteral(1),IntLiteral(2),IntLiteral(3)])),VarDecl(Id("y"),[2748,342391],None)],[For(Id("x"),IntLiteral(1),BinaryOp("&&",Id("x"),Id("y")),IntLiteral(7263),([],[Assign(Id("x"),ArrayCell(Id("a"),[BinaryOp("+",BinaryOp("+",BinaryOp("*",IntLiteral(1),Id("y")),IntLiteral(1)),CallExpr(Id("foo"),[]))]))]))]))]))])
         self.assertTrue(TestAST.checkASTGen(input,expect,400))
