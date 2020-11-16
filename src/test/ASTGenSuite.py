@@ -5,11 +5,11 @@ from AST import *
 
 class ASTGenSuite(unittest.TestCase):
     # Predefined test case
-    def test_simple_program(self):
-        """Simple program: int main() {} """
-        input = """Var:x;"""
-        expect = Program([VarDecl(Id("x"),[],None)])
-        self.assertTrue(TestAST.checkASTGen(input,expect,300))
+    # def test_simple_program(self):
+    #     """Simple program: int main() {} """
+    #     input = """Var:x;"""
+    #     expect = Program([VarDecl(Id("x"),[],None)])
+    #     self.assertTrue(TestAST.checkASTGen(input,expect,300))
 
     # Variable declaration test cases
     def test_var_dcl_1(self):
